@@ -66,6 +66,7 @@ func (w *Worker) Start(workerId int) {
 					break loop
 				}
 			}
+			log.Println("Worker", workerId, "stopping work on queue", transactionClientQueue.ClientId)
 			transactionClientQueue.InWork = false
 		case <-w.done:
 			log.Println("Worker", workerId, "stopping")
