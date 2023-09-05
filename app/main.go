@@ -58,7 +58,7 @@ func main() {
 	managerQueue := make(chan queueManager.ManagerQueueRequest, 10)
 
 	manager := queueManager.NewManager(managerQueue, done, &wg, transactionQueue)
-	wg.Add(1)
+	wg.Add(2)
 	go manager.Start()
 
 	// На случай если у нас упал сервер, то проверяем если зависшие транзакции и обрабатываем их если есть

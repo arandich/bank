@@ -43,6 +43,7 @@ func (m *Manager) Start() {
 
 	go func(clientMap *map[uint]*TransactionQueue) {
 		log.Println("Starting manager queue cleaner")
+		defer m.wg.Done()
 		for {
 			select {
 			case <-m.done:
@@ -78,11 +79,12 @@ func (m *Manager) Start() {
 			}
 			transactionQueue.lastSend = time.Now()
 
+			transactionQueue.TransactionQueue <- request.TransactionId
+
 			if transactionQueue.InWork == false {
 				transactionQueue.InWork = true
 				m.TransactionQueueChan <- transactionQueue
 			}
-			transactionQueue.TransactionQueue <- request.TransactionId
 
 			log.Println("Transaction added to queue: ", request.ClientId)
 
