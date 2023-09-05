@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  server:
+    build:
+      context: .
+    container_name: bank-service
+    restart: always
+    ports:
+      - "1323:1323"
+    environment:
+      - PG_HOST=postgres_container
+      - PG_PORT=5432
+      - PG_USER=admin
+      - PG_PASSWORD=admin
+      - PG_DBNAME=bank
+      - WORKER_NUMBER=3
+    networks:
+      - bank-network
+
+networks:
+  bank-network:
+    name: bank-network
